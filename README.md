@@ -1,0 +1,2 @@
+# MysqlInstaller
+tidy the AutoMysql

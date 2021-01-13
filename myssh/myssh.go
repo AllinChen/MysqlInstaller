@@ -53,6 +53,7 @@ func (c *Cli) connect() error {
 		Timeout: 10 * time.Second,
 	}
 	addr := fmt.Sprintf("%s:%d", c.IP, c.Port)
+	fmt.Println("通讯地址；", addr)
 	sshClient, err := ssh.Dial("tcp", addr, &config)
 	if err != nil {
 		return err
@@ -93,17 +94,15 @@ func (c *Cli) Run(shell string) (result string, err error) {
 			return "", err
 		}
 
-		if s != nil {
+		if err == nil {
 			buf, err := s.CombinedOutput(shell)
 			result = string(buf)
 			fmt.Println(result)
-			if s.Stderr == nil {
-				log.Infof("执行命令“%s”成功", shell)
 
-				return result, err
-			}
-			log.Warnf("warning ,%s", result)
-			return "", fmt.Errorf(result)
+			log.Infof("执行命令“%s”成功", shell)
+
+			return result, err
+
 		}
 	}
 	err = fmt.Errorf("对话建立失败，执行命令“%s”失败", shell)

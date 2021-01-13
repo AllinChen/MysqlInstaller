@@ -2,57 +2,52 @@ package myssh
 
 import (
 	"fmt"
+	"strconv"
 
-	"github.com/AllinChen/MysqlInstaller/conf"
 	"github.com/AllinChen/MysqlInstaller/mycfg"
-	"github.com/AllinChen/MysqlInstaller/myflag"
+	"github.com/AllinChen/MysqlInstaller/mycnf"
 )
 
 //Install 安装流程
-func Install(c Cli) error {
+func Install(mycfgfile, ip, port string) error {
 	//制造flag获得端口号和IP号
-	ip, port, _ := myflag.MakeFlag()
 	//制造conf文件
-	conf.GenerateMyCnf(*ip, *port)
-
-	////////还要加上传送文件的过程
-c.UploadFile("./src/my.cnf","/etc/")
-	//读取配置文件
-	Cfg := mycfg.GetCfg("./src/AutoMysql.cfg")
-	// mkdir -p /data1/mysql3306/binlog
-	c.Mkdir(Cfg.MysqlPath + "/mysql3306/binlog")
-	// mkdir -p /data1/mysql3306/data
-	c.Mkdir(Cfg.MysqlPath + "/mysql3306/data")
+	mycnf.GenerateMyCnf(ip, port)
+	InstallerInfo := mycfg.Read(mycfgfile, "=", ";")
+	portused, _ := strconv.Atoi(InstallerInfo["PORT"])
+	fmt.Print(InstallerInfo)
+	cli := NewCli(ip, InstallerInfo["USERNAME"], InstallerInfo["PASSWORD"], portused)
+	if err := cli.StartConnect(); err == nil {
+		////////还要加上传送文件的过程
+		cli.UploadFile("./src/my.cnf", "/etc/")
+		//读取配置文件
+		Cfg := mycfg.GetCfg("./src/AutoMysql.cfg")
+		//创建用户，用户组
+		cli.Useradd("mysql")
+		// mkdir -p /data1/mysql3306/binlog
+		cli.Mkdir(Cfg.MysqlPath + "/mysql" + port + "/binlog")
+		// mkdir -p /data1/mysql3306/data
+		cli.Mkdir(Cfg.MysqlPath + "/mysql" + port + "/data")
 		// if err != nil{
-		// return err	
+		// return err
 		// }
-	
-	// chown -R mysql:mysql /data1/mysql
-	c.Mkdir(Cfg.MysqlPath + "/mysql3306/data"))
-	// cp -rf ./related/limits.conf /etc/security/limits.conf  64000
-	// mkdir -p ./related/
-	// mv /data1/mysql731 ./related/mysql
-	// cp -rf ./related/mysql/* /data1/mysql
+		// chown -R mysql:mysql /data1/mysql
+		cli.Mkdir(Cfg.MysqlPath + "/mysql" + port + "/binlog")
 
-	// cp -rf ./related/my.cnf /etc/my.cnf
-	// mkdir -p /data1/mysql3306/data
-	// mkdir -p /data1/mysql3306/tmp
-	// mkdir -p /data1/mysql3306/sock
-	// mkdir -p /data1/mysql3306/log
-	// mkdir -p /data1/mysql3306/pid
-	// chmod -R 775 /data1/mysql
-	// chown -R mysql:mysql /data1/mysql
-	// cp -rf /data1/mysql/bin/mysql /usr/bin
-	// cp -rf /data1/mysql/bin/mysqld /usr/bin
-	// cp -rf /data1/mysql/bin/mysqld_safe /usr/bin
-	// cp -rf /data1/mysql/bin/mysqld_multi /usr/bin
-	// cp -rf /data1/mysql/bin/mysqldump /usr/bin
-	// cp -rf /data1/mysql/bin/mysqlbinlog /usr/bin
-	// cp -rf /data1/mysql/bin/mysql_config_editor /usr/bin
-	// cp -rf /data1/mysql/bin/my_print_defaults /usr/bin
-	// cp -rf /data1/mysql/bin/mysqladmin /usr/bin
-	// cp -rf ./related/.bash_profile /home/mysql/.bash_profile
-	// runuser -l mysql -c '/data1/mysql/bin/mysqld --initialize-insecure --user=mysql --basedir=/data1/mysql --datadir=/data1/mysql3306/data'
-	// runuser -l mysql -c 'mysqld_multi start 3306'
+		cli.Chown("mysql:mysql " + Cfg.MysqlPath + "/mysql" + port + "/binlog")
+
+		cli.Chown("mysql:mysql " + Cfg.MysqlPath + "/mysql" + port + "/data")
+		cli.Chmod(Cfg.MysqlPath + "/mysql")
+
+		cli.Cp(Cfg.MysqlPath+"/mysql/bin/*", "/usr/bin/")
+
+		// runuser -l mysql -c '/data1/mysql/bin/mysqld --initialize-insecure --user=mysql --basedir=/data1/mysql --datadir=/data1/mysql3306/data'
+		// runuser -l mysql -c 'mysqld_multi start 3306'
+		cli.Run("runuser -l mysql -c '" + Cfg.MysqlPath + "/mysql/bin/mysqld --initialize-insecure --user=mysql --basedir=" + Cfg.MysqlPath + "/mysql --datadir=" + Cfg.MysqlPath + "/mysql3306/data'")
+		return nil
+	} else {
+		fmt.Println(err)
+		return err
+	}
+
 }
-

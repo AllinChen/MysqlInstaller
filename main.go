@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/AllinChen/MyCfg/mycfg"
+	"github.com/AllinChen/AutoMycnf/mycfg"
 	"github.com/AllinChen/MysqlInstaller/myssh"
 )
 

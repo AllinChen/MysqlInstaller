@@ -40,7 +40,7 @@ func GetCfg(file string) (cfg *Cfg) {
 		log.Warn("配置表建立失败，需检查配置文件是否正确建立")
 		return nil
 	}
-	log.Info("成功建立配置信息")
+	log.Info("成功建立CFG配置信息")
 	return cfg
 
 }
@@ -57,12 +57,12 @@ func ReGet(compile, cfgfile string) (res string) {
 	result := re.FindAllStringSubmatch(cfgfile, -1)
 	if result == nil {
 
-		log.Warnf("get %s failed", compile)
+		//	log.Warnf("get %s failed", compile)
 		return " "
 	}
 	fmt.Println(compile, " = ", result[0][1])
 	res = result[0][1]
-	log.Infof("get %s success , value = %s", compile, res)
+	//log.Infof("get %s success , value = %s", compile, res)
 	return
 
 }

@@ -17,6 +17,7 @@ func StartGin(mycfgfile string, ip, port *string) (err error) {
 		ipport := c.Param("ipport")
 		*ip, *port, _ = Reipport(ipport)
 		c.String(200, "ip:  %s\nport:  %s", *ip, *port)
+
 		myssh.Install(mycfgfile, *ip, *port)
 
 	})

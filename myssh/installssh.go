@@ -11,7 +11,7 @@ import (
 //Install 安装流程
 func Install(mycfgfile, ip, port string) error {
 	//制造flag获得端口号和IP号
-
+	mycfg.UseLog(ip, port)
 	//制造conf文件
 	mycnf.GenerateMyCnf(ip, port)
 	InstallerInfo := mycfg.Read(mycfgfile, "=", ";")

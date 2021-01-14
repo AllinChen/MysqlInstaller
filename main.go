@@ -12,11 +12,14 @@ func main() {
 	)
 
 	ip, port, _ := myflag.MakeFlag()
+
 	if *ip == "0.0.0.0" {
 		//*ip = "192.168.171.141"
+
 		mygin.StartGin(mycfgfile, ip, port)
 
 	} else {
+
 		myssh.Install(mycfgfile, *ip, *port)
 	}
 

@@ -10,6 +10,7 @@ import (
 
 	"github.com/AllinChen/MysqlInstaller/mycfg"
 	"github.com/BurntSushi/toml"
+	"github.com/romberli/log"
 )
 
 //订制配置文件解析载体
@@ -182,9 +183,11 @@ func GenerateMyCnf(Ip string, PortNum string) error {
 	if checkFileIsExist(filename) { //如果文件存在
 		f, err = os.OpenFile(filename, os.O_TRUNC|os.O_WRONLY, os.ModeAppend) //打开文件
 		fmt.Println("文件存在")
+
 	} else {
 		f, err = os.Create(filename) //创建文件
 		fmt.Println("文件不存在")
+		log.Warnf("无法找到默认cnf配置")
 	}
 	if err != nil {
 		return err
@@ -214,6 +217,7 @@ func GenerateMyCnf(Ip string, PortNum string) error {
 	if err != nil {
 		return err
 	}
+	log.Infof("my.cnf建立成功")
 	return nil
 }
 
@@ -222,12 +226,14 @@ func GenerateClient(client *Client, PortNum string) *Client {
 	Cfg := mycfg.GetCfg("./src/AutoMysql.cfg")
 	client.Socket = Cfg.MysqlPath + "/mysql" + PortNum + "/mysql.sock"
 	fmt.Println(client.Socket)
+	log.Infof("client模块创建成功")
 	return client
 }
 
 // 给Mysql结构体赋值
 func GenerateMysql(mysql *Mysql) *Mysql {
 	mysql.DefaultCharacterSet = "utf8mb4"
+	log.Infof("mysql模块创建成功")
 	return mysql
 }
 
@@ -352,7 +358,7 @@ func GenerateMysqld(mysqld *Mysqld, Ip string, PortNum string) *Mysqld {
 	mysqld.ValidatePassword = "FORCE_PLUS_PERMANENT"
 	mysqld.ValidatePasswordPolicy = "MEDIUM"
 	mysqld.SymbolicLinks = "0"
-
+	log.Infof("mysqld模块创建成功")
 	return mysqld
 
 }

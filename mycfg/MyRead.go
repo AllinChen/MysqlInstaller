@@ -40,7 +40,7 @@ func StringRead(fileName string) string {
 		log.Warnf("读取文件失败:%#v", err)
 		return ""
 	}
-	log.Info("读取配置文件成功")
+	log.Infof("读取配置文件成功%s", fileName)
 	return string(f)
 }
 

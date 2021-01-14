@@ -1,0 +1,20 @@
+package mycfg
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/romberli/log"
+)
+
+//UseLog 建立日志
+func UseLog(ip, port string) error {
+	dir, _ := os.Getwd()
+	logname := dir + "\\" + ip + "_" + port + ".log"
+	_, _, err := log.InitLoggerWithDefaultConfig(logname)
+	if err != nil {
+		fmt.Println("init log failed")
+		return fmt.Errorf("init log failed")
+	}
+	return nil
+}

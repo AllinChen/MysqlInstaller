@@ -11,17 +11,24 @@ import (
 //Install 安装流程
 func Install(mycfgfile, ip, port string) error {
 	//制造flag获得端口号和IP号
+
 	//制造conf文件
 	mycnf.GenerateMyCnf(ip, port)
 	InstallerInfo := mycfg.Read(mycfgfile, "=", ";")
 	portused, _ := strconv.Atoi(InstallerInfo["PORT"])
-	fmt.Print(InstallerInfo)
+	// fmt.Print(InstallerInfo)
 	cli := NewCli(ip, InstallerInfo["USERNAME"], InstallerInfo["PASSWORD"], portused)
+	// fmt.Println(cli)
 	if err := cli.StartConnect(); err == nil {
 		////////还要加上传送文件的过程
+		Cfg := mycfg.GetCfg("./src/AutoMysql.cfg")
+
+		cli.UploadFile("./src/mysql.tar.gz", Cfg.MysqlPath+"/")
+		cli.Tar(Cfg.MysqlPath + "/mysql.tar.gz")
+		cli.Mv("/root/mysql-5.7.31-linux-glibc2.12-x86_64", Cfg.MysqlPath+"/mysql")
 		cli.UploadFile("./src/my.cnf", "/etc/")
 		//读取配置文件
-		Cfg := mycfg.GetCfg("./src/AutoMysql.cfg")
+
 		//创建用户，用户组
 		cli.Useradd("mysql")
 		// mkdir -p /data1/mysql3306/binlog

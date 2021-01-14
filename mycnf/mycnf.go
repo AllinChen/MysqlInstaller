@@ -147,7 +147,7 @@ var Conf *Config = new(Config)
 
 func init() {
 	//读取配置文件
-	_, err := toml.DecodeFile("./conf/test.cnf", Conf)
+	_, err := toml.DecodeFile("./mycnf/test.cnf", Conf)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -193,6 +193,7 @@ func GenerateMyCnf(Ip string, PortNum string) error {
 	// 开始拼接字符串
 	// client section
 	result := "[client]\n"
+
 	Conf.Client = GenerateClient(Conf.Client, PortNum)
 	result = result + GetBuffer(Conf.Client) + "\n"
 
@@ -220,6 +221,7 @@ func GenerateMyCnf(Ip string, PortNum string) error {
 func GenerateClient(client *Client, PortNum string) *Client {
 	Cfg := mycfg.GetCfg("./src/AutoMysql.cfg")
 	client.Socket = Cfg.MysqlPath + "/mysql" + PortNum + "/mysql.sock"
+	fmt.Println(client.Socket)
 	return client
 }
 

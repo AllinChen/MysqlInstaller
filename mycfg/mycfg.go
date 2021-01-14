@@ -45,7 +45,7 @@ func GetCfg(file string) (cfg *Cfg) {
 
 }
 
-//ReGet 配置匹配模块
+//ReGet 配置单独项的匹配模块
 func ReGet(compile, cfgfile string) (res string) {
 	re := regexp.MustCompile(compile + `=([^;]+)`)
 	//解释规则，解析正则表达式，如果成功则返回

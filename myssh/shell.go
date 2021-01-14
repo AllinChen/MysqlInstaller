@@ -59,7 +59,25 @@ func (c Cli) Chmod(NewPath string) (res string, err error) {
 
 //Useradd 添加用户
 func (c Cli) Useradd(UserName string) (res string, err error) {
-	res, err = c.Run("useradd -g" + UserName)
+	res, err = c.Run("useradd -g " + UserName)
+	if err == nil {
+		return res, nil
+	}
+	return "", err
+}
+
+// //Chmod 赋予权限
+// func (c Cli) Chmod(NewPath string) (res string, err error) {
+// 	res, err = c.Run("chmod -R 775 " + NewPath)
+// 	if err == nil {
+// 		return res, nil
+// 	}
+// 	return "", err
+// }
+
+//Tar 解压文件
+func (c Cli) Tar(NewPath string) (res string, err error) {
+	res, err = c.Run("tar zxvf " + NewPath)
 	if err == nil {
 		return res, nil
 	}

@@ -44,7 +44,7 @@ func StringRead(fileName string) string {
 	return string(f)
 }
 
-//ReGet2 配置匹配模块，输入文件名和配置表达式符号，可以匹配“=”与“：”
+//ReGet2 配置全匹配模块，输入文件名和配置表达式符号，可以匹配“=”与“：”
 func ReGet2(fileName, oc, ed string) (res [][]string) {
 	cfgfile := StringRead(fileName)
 	re := regexp.MustCompile(`([^` + oc + `]+)` + oc + `([^` + ed + `]+)` + ed)

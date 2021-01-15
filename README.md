@@ -29,7 +29,3 @@
    	MysqlPath      string //指定MySQL安装路径
    	InstallSQLPath string //指定初始化SQL文件位置
    	MysqlTarPath   string //指定mysql安装包位置
-   	IPM			  string //master ip
-   	IPS			  string //slave ip
-   	INSTALLSQLPATHM string //master要执行的sql文件
-   	INSTALLSQLPATHS string //slave要执行的sql文件

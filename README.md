@@ -14,18 +14,18 @@
 
 使用介绍
     1、通过flag的方法输入参数
-    go run main.go -ip "192.168.171.149" -port "3306"
+    `go run main.go -ip "192.168.171.149" -port "3306"`
     2、通过网页方式输入参数
     运行main.go
-    在浏览器地址栏中输入 localhost:8080\installmysql\192.168.171.149:3306
+    在浏览器地址栏中输入 `localhost:8080\installmysql\192.168.171.149:3306`
 
 配置文件参数介绍
-    IP             string //IP地址
-   	Username       string //用户名
-   	Password       string //密码
-   	Port           int    //端口号
-   	LocalMycnfPath string //本地mycnf路径
-   	RemoteCnfPath  string //服务器mycnf路径
-   	MysqlPath      string //指定MySQL安装路径
-   	InstallSQLPath string //指定初始化SQL文件位置
-   	MysqlTarPath   string //指定mysql安装包位置
+   `IP             string //IP地址`
+   `Username       string //用户名`
+   `Password       string //密码`
+   `Port           int    //端口号`
+   `LocalMycnfPath string //本地mycnf路径`
+   `RemoteCnfPath  string //服务器mycnf路径`
+   `MysqlPath      string //指定MySQL安装路径`
+   `InstallSQLPath string //指定初始化SQL文件位置`
+   `MysqlTarPath   string //指定mysql安装包位置`

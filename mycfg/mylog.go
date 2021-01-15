@@ -3,6 +3,7 @@ package mycfg
 import (
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/romberli/log"
 )
@@ -10,7 +11,12 @@ import (
 //UseLog 建立日志
 func UseLog(ip, port string) error {
 	dir, _ := os.Getwd()
-	logname := dir + "\\" + ip + "_" + port + ".log"
+	var logname string
+	if runtime.GOOS == "windows" {
+		logname = dir + "\\logs\\" + ip + "_" + port + ".log"
+	} else {
+		logname = dir + "/logs/" + ip + "_" + port + ".log"
+	}
 	_, _, err := log.InitLoggerWithDefaultConfig(logname)
 	if err != nil {
 		fmt.Println("init log failed")

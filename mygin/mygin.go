@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/AllinChen/MysqlInstaller/mycfg"
 	"github.com/AllinChen/MysqlInstaller/myssh"
 	"github.com/gin-gonic/gin"
 	"github.com/romberli/log"
@@ -19,7 +20,8 @@ func StartGin(mycfgfile string, ip, port *string) (err error) {
 		c.String(200, "ip:  %s\nport:  %s", *ip, *port)
 
 		myssh.Install(mycfgfile, *ip, *port)
-
+		log := mycfg.StringRead("./logs/" + *ip + "_" + *port + ".log")
+		c.String(200, "\n log\n%s", log)
 	})
 	r.Run(":8080")
 	return nil

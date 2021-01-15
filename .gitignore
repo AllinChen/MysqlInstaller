@@ -24,7 +24,7 @@
 *.code-workspace
 *.txt
 *_debug_bin
-*src
+
 *mysql731.tar.gz
 *mysql
 list.txt

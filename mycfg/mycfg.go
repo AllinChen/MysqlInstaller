@@ -5,8 +5,6 @@ import (
 
 	"regexp"
 	"strconv"
-
-	"github.com/romberli/log"
 )
 
 //Cfg 配置结构体
@@ -46,10 +44,10 @@ func GetCfg(file string) (cfg *Cfg) {
 	MysqlTarPath := ReGet("MYSQLTARPATH", cfgfile)
 	cfg = &Cfg{IP, Username, PassWord, RealPort, LocalMycnfPath, RemoteCnfPath, MysqlPath, InstallSQLPath, MysqlTarPath}
 	if cfg.IP == "" || cfg.Username == "" || cfg.Password == "" || cfg.LocalMycnfPath == "" || cfg.RemoteCnfPath == "" || cfg.MysqlPath == "" || cfg.InstallSQLPath == "" || MysqlTarPath == "" {
-		log.Warn("配置表建立失败，需检查配置文件是否正确建立")
+		//	log.Warn("配置表建立失败，需检查配置文件是否正确建立")
 		return nil
 	}
-	log.Info("成功建立CFG配置信息")
+	//log.Info("成功建立CFG配置信息")
 	return cfg
 
 }

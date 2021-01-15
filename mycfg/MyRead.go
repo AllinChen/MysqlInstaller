@@ -7,8 +7,6 @@ import (
 	"strings"
 
 	"regexp"
-
-	"github.com/romberli/log"
 )
 
 //Read 主模块，输入配置文件名和配置表达符号，读取配置返回配置表
@@ -37,10 +35,10 @@ func Read(fileName, oc, ed string) map[string]string {
 func StringRead(fileName string) string {
 	f, err := ioutil.ReadFile(fileName)
 	if err != nil {
-		log.Warnf("读取文件失败:%#v", err)
+		//	log.Warnf("读取文件失败:%#v", err)
 		return ""
 	}
-	log.Infof("读取配置文件成功%s", fileName)
+	//	log.Infof("读取配置文件成功%s", fileName)
 	return string(f)
 }
 
@@ -51,15 +49,15 @@ func ReGet2(fileName, oc, ed string) (res [][]string) {
 	//解释规则，解析正则表达式，如果成功则返回
 	if re == nil {
 		fmt.Println("error regexp")
-		log.Warnf("ReGet函数输入错误，正则表示式异常")
+		//	log.Warnf("ReGet函数输入错误，正则表示式异常")
 	}
 	//根据规则提取信息
 	result := re.FindAllStringSubmatch(cfgfile, -1)
 	if result == nil {
 
-		log.Warnf("读取配置失败")
+		//	log.Warnf("读取配置失败")
 		return nil
 	}
-	log.Infof("读取配置成功")
+	//log.Infof("读取配置成功")
 	return result
 }

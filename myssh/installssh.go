@@ -19,7 +19,7 @@ func Install(mycfgfile, ip, port string) error {
 	portused, _ := strconv.Atoi(InstallerInfo["PORT"])
 	// fmt.Print(InstallerInfo)
 	cli := NewCli(ip, InstallerInfo["USERNAME"], InstallerInfo["PASSWORD"], portused)
-	// fmt.Println(cli)
+	fmt.Println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", cli)
 	if err := cli.StartConnect(); err == nil {
 
 		////////还要加上传送文件的过程

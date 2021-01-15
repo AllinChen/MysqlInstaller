@@ -17,11 +17,12 @@ func StartGin(mycfgfile string, ip, port *string) (err error) {
 	r.GET("/installmysql/:ipport", func(c *gin.Context) {
 		ipport := c.Param("ipport")
 		*ip, *port, _ = Reipport(ipport)
+
 		c.String(200, "ip:  %s\nport:  %s", *ip, *port)
 
 		myssh.Install(mycfgfile, *ip, *port)
 		log := mycfg.StringRead("./logs/" + *ip + "_" + *port + ".log")
-		c.String(200, "\n log\n%s", log)
+		c.String(200, "\nlog\n%s", log)
 	})
 	r.Run(":8080")
 	return nil

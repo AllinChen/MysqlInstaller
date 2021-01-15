@@ -15,12 +15,18 @@ import (
 
 //Cli SSH的连接参数结构体
 type Cli struct {
-	IP         string       //IP地址
-	User       string       //用户名
-	Password   string       //密码
-	Port       int          //端口号
-	Client     *ssh.Client  //ssh客户端，连接完毕后会生成一个指针，默认为空
-	SftpClient *sftp.Client //sftp客户端，连接完毕后会生成一个指针，默认为空
+	//IP地址
+	IP string
+	//用户名
+	User string
+	//密码
+	Password string
+	//端口号
+	Port int
+	//ssh客户端，连接完毕后会生成一个指针，默认为空
+	Client *ssh.Client
+	//sftp客户端，连接完毕后会生成一个指针，默认为空
+	SftpClient *sftp.Client
 }
 
 //NewCli 创建一个新的Cli结构体，指定连接参数，client和LastResult为空

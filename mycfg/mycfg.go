@@ -11,15 +11,24 @@ import (
 
 //Cfg 配置结构体
 type Cfg struct {
-	IP             string //IP地址
-	Username       string //用户名
-	Password       string //密码
-	Port           int    //端口号
-	LocalMycnfPath string //本地mycnf路径
-	RemoteCnfPath  string //服务器mycnf路径
-	MysqlPath      string //指定MySQL安装路径
-	InstallSQLPath string //指定初始化SQL文件位置
-	MysqlTarPath   string //指定mysql安装包位置
+	IP string
+	//IP地址
+	Username string
+	//用户名
+	Password string
+	//密码
+	Port int
+	//端口号
+	LocalMycnfPath string
+	//本地mycnf路径
+	RemoteCnfPath string
+	//服务器mycnf路径
+	MysqlPath string
+	//指定MySQL安装路径
+	InstallSQLPath string
+	//指定初始化SQL文件位置
+	MysqlTarPath string
+	//指定mysql安装包位置
 }
 
 //GetCfg 得到配置信息
@@ -48,11 +57,13 @@ func GetCfg(file string) (cfg *Cfg) {
 //ReGet 配置单独项的匹配模块
 func ReGet(compile, cfgfile string) (res string) {
 	re := regexp.MustCompile(compile + `=([^;]+)`)
+
 	//解释规则，解析正则表达式，如果成功则返回
 	if re == nil {
 		fmt.Println("error regexp")
 		panic(re)
 	}
+
 	//根据规则提取信息
 	result := re.FindAllStringSubmatch(cfgfile, -1)
 	if result == nil {
@@ -62,6 +73,7 @@ func ReGet(compile, cfgfile string) (res string) {
 	}
 	fmt.Println(compile, " = ", result[0][1])
 	res = result[0][1]
+
 	//log.Infof("get %s success , value = %s", compile, res)
 	return
 
